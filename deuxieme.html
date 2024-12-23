@@ -1,0 +1,411 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #timer{
+      font-size: large;
+    margin-top: 30px;
+
+    }
+    img{
+      width: 50px;
+      height: 40px;
+      
+    }
+    * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+      }
+      body {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background-color: black;
+        transform: translate(-50%, -50%);
+        background-image: url("bck.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+  
+  </style>
+</head>
+<body>
+  <canvas></canvas>
+ <div> 
+<img src="timer.png">
+  <span id="timer">Temps écoulé   : 0 secondes </span>
+  
+   
+ </div>
+ 
+
+
+<script>
+     let canvas = document.querySelector("canvas");
+let cts = canvas.getContext("2d");
+let divHeight = 25;
+let divWidth = 25;
+let map = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 9, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0],
+  [0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0],
+  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  [0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  [0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0],
+  [0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0],
+  [0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0],
+  [0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0],
+  [0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0],
+  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0],
+  [0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0],
+  [0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  [0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  [0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0],
+  [0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0],
+  [0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0],
+  [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
+
+canvas.width = map[0].length * divWidth;
+canvas.height = map.length * divHeight;
+
+function pac(x, y) {
+  originPos = { x: x, y: y };
+ cts.fillStyle="yellow"
+ if (map[y / divHeight][x / divWidth] === 2) {
+    eatDot();
+  }
+ 
+
+  cts.fillRect(originPos["x"], originPos["y"], divWidth, divHeight);
+  return originPos;
+}
+
+function div() {
+  for (let row = 0; row < map.length; row++) {
+    for (let column = 0; column < map[row].length; column++) {
+      if (map[row][column] == 0) {
+        cts.fillStyle = "rgba(0,0,0,0.5)";
+        cts.fillRect(divWidth * column, divHeight * row, divWidth, divHeight);
+        cts.strokeStyle = "blue";
+        cts.strokeRect(divWidth * column, divHeight * row, divWidth, divHeight);
+      }
+    }
+  }
+}
+div();
+x = divWidth;
+y = divHeight;
+pac(x, y);
+
+function ghost(x, y) {
+  let image = new Image();
+  image.src = "the ghost.png";
+  image.onload = function() {
+    cts.drawImage(image, x, y, divWidth, divHeight);
+  };
+}
+let originGhostx = 475;
+let originGhosty = 450;
+ghost(originGhostx, originGhosty);
+function moveGhostUp() {
+  let image = new Image();
+  image.src = "the ghost.png";
+  while (map[originGhosty / divHeight - 1][originGhostx / divWidth] != 0) {
+    cts.clearRect(originGhostx, originGhosty, divWidth, divHeight);
+
+    originGhosty -= divHeight;
+
+    cts.drawImage(image, originGhostx, originGhosty, divWidth, divHeight);
+  }
+}
+function moveGhostDown() {
+  let image = new Image();
+  image.src = "the ghost.png";
+  while (map[originGhosty / divHeight + 1][originGhostx / divWidth] != 0) {
+    cts.clearRect(originGhostx, originGhosty, divWidth, divHeight);
+
+    originGhosty += divHeight;
+
+    cts.drawImage(image, originGhostx, originGhosty, divWidth, divHeight);
+  }
+}
+function moveGhostLeft() {
+  let image = new Image();
+  image.src = "the ghost.png";
+  while (map[originGhosty / divHeight][originGhostx / divWidth - 1] != 0) {
+    cts.clearRect(originGhostx, originGhosty, divWidth, divHeight);
+
+    originGhostx -= divWidth;
+
+    cts.drawImage(image, originGhostx, originGhosty, divWidth, divHeight);
+  }
+}
+function moveGhostRight() {
+  let image = new Image();
+  image.src = "the ghost.png";
+  while (map[originGhosty / divHeight][originGhostx / divWidth + 1] != 0) {
+    cts.clearRect(originGhostx, originGhosty, divWidth, divHeight);
+
+    originGhostx += divWidth;
+
+    cts.drawImage(image, originGhostx, originGhosty, divWidth, divHeight);
+  }
+}
+function moveGhost() {
+  let rd = Math.floor(Math.random() * (4 - 1 + 2));
+
+  if (rd == 1) {
+    moveGhostUp();
+  }
+
+  if (rd == 2) {
+    moveGhostDown();
+  }
+  if (rd == 3) {
+    moveGhostLeft();
+  }
+  if (rd == 4) {
+    moveGhostRight();
+  }
+}
+let count = 0;
+function lose() {
+  let loseSound = new Audio();
+  loseSound.src = "pacman_death.wav";
+
+  if (originGhostx == pac(x, y)["x"] && originGhosty == pac(x, y)["y"]) {
+    {
+      if (count == 0) {
+        loseSound.play();
+        count++;
+        clearInterval(infint_move_ghost);
+        clearInterval(loste);
+      }
+    }
+  }
+}
+let loste=setInterval(lose, 100);
+infint_move_ghost = setInterval(moveGhost, 1000);
+function movex(dir) {
+  if (dir == "right") {
+    while (map[y / divHeight][x / divWidth + 1] != 0) {
+      cts.clearRect(x, y, divWidth, divHeight);
+      x += divWidth;
+
+      pac(x, y);
+    }
+  }
+  if (dir == "left") {
+    while (map[y / divHeight][x / divWidth - 1] != 0) {
+      cts.clearRect(x, y, divWidth, divHeight);
+      x -= divWidth;
+
+      pac(x, y);
+    }
+  }
+}
+function movey(dir) {
+  if (dir == "down") {
+    while (map[y / divHeight + 1][x / divWidth] != 0) {
+      cts.clearRect(x, y, divWidth, divHeight);
+      y += divHeight;
+
+      pac(x, y);
+    }
+  }
+  if (dir == "up") {
+    while (map[y / divHeight - 1][x / divWidth] != 0) {
+      cts.clearRect(x, y, divWidth, divHeight);
+      y -= divHeight;
+
+      pac(x, y);
+    }
+  }
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key == "ArrowRight") {
+    movex("right");
+  }
+  if (event.key == "ArrowDown") {
+    movey("down");
+  }
+  if (event.key == "ArrowUp") {
+    movey("up");
+  }
+  if (event.key == "ArrowLeft") {
+    movex("left");
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+let startTim = Date.now(); 
+
+function updateTimer() {
+  let currentTime = Date.now();
+  let elapsedTime = (currentTime - startTim) / 1000; 
+
+ 
+  document.getElementById("timer").innerText = "Temps écoulé: " + elapsedTime.toFixed(0) + " secondes";
+}
+
+
+let timeInterval = setInterval(updateTimer, 1000); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const MAXe_TIME = 60; 
+let starteTime = Date.now(); 
+
+function checkTime() {
+  let currentTime = Date.now();
+  let elapsedTime = (currentTime - startTime) / 1000; 
+  if (elapsedTime >= MAX_TIME) {
+    clearInterval(timer)
+    window.location.href = "defeat.html"
+  }
+}
+let timer = setInterval(checkTime, 1000); 
+
+
+
+
+
+
+
+
+
+let startTime = Date.now(); 
+let eatenGhosts = 0;
+let chances = 3; 
+let MAX_TIME = 60; 
+
+function updateTimer() {
+  let currentTime = Date.now();
+  let elapsedTime = (currentTime - startTime) / 1000; 
+  
+  document.getElementById("timer").innerText = "Temps écoulé: " + elapsedTime.toFixed(0) + " secondes";
+
+
+  if (elapsedTime >= MAX_TIME) {
+    clearInterval(timerInterval); 
+   
+   
+    function updateTimer() {
+  let currentTime = Date.now();
+  let elapsedTime = (currentTime - startTime) / 1000; 
+ 
+  document.getElementById("timer").innerText = "Temps écoulé: " + elapsedTime.toFixed(0) + " secondes";
+
+  
+  if (elapsedTime >= MAX_TIME) {
+    clearInterval(timerInterval); 
+    
+    window.location.href = "defeat.html";
+  }
+}
+
+
+  }}
+
+
+
+
+
+  function replay(){
+  
+  if (win==3){
+   canvas.style.display="none"
+   display_won()
+ 
+  }else{
+   
+  
+   originGhostx = 475;
+   originGhosty = 450;
+   count=0
+  
+   infint_move_ghost = setInterval(moveGhost, 100);
+   loste=setInterval(lose, 100);
+   cts.clearRect(x,y,divWidth,divHeight)
+  
+  
+  x = divWidth;
+  y = divHeight;
+  pac(x,y)
+ 
+  }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

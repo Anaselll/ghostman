@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Description du Jeu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: black;
+      color: white;
+      margin: 0;
+      padding: 0;
+      text-align: center; 
+      margin: 0;
+     
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    p {
+      line-height: 1.6;
+    }
+  
+    .button-container {
+      display: inline-block; 
+    }
+
+/* CSS */
+.button-52 {
+  font-size: 16px;
+  font-weight: 200;
+  letter-spacing: 1px;
+  padding: 13px 20px 13px;
+  outline: 0;
+  border: 1px solid black;
+  cursor: pointer;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+ 
+}
+
+.button-52:after {
+  content: "";
+  background-color: red;
+  width: 100%;
+  z-index: -1;
+  position: absolute;
+  height: 100%;
+  top: 7px;
+  left: 7px;
+  transition: 0.2s;
+}
+
+.button-52:hover:after {
+  top: 0px;
+  left: 0px;
+}
+
+@media (min-width: 768px) {
+  .button-52 {
+    padding: 13px 50px 13px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <h1 style="color: red; font-family: Chiller, sans-serif; font-size: 52px;" > <img src="ghost button.png" style="height: 50px;">Description du Jeu <img src="ghost button.png" style="height: 50px;"></h1>
+    <p>Bienvenue dans "Ghost Hunter", un jeu d'aventure palpitant où vous incarnez un chasseur de fantômes intrépide.</p>
+    <h2>Instructions</h2>
+    <p>Dans ce jeu, vous devez naviguer à travers un labyrinthe hanté . Utilisez les touches directionnelles de votre clavier pour déplacer votre personnage. </p>
+    
+    <h2>Objectif</h2>
+    <p>Votre objectif ultime est de manger le fantôme trois fois dans un délai d'une minute. Mais attention, le temps presse, et les fantômes ne seront pas votre seul obstacle !</p>
+    <h2>Prêt à chasser des fantômes ?</h2>
+    <p>Lancez-vous dans cette aventure palpitante et voyez si vous avez ce qu'il faut pour devenir le meilleur chasseur de fantômes du monde !</p>
+  </div>
+  <div class="button-container">
+    <button class="button-52" role="button" onclick="startGame()">start</button>
+
+  </div>
+  
+  <script>
+    function startGame() {
+      window.location.href = "draw.html";
+    }
+  </script>
+</body>
+</html>

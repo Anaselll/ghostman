@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Défaite</title>
+  <style>
+    p{
+        font-family: Chiller, sans-serif;
+        color:red;
+      font-size: 69px;
+     
+    }
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: black;
+    }
+    
+    .message {
+      margin-top: 100px;
+      font-size: 24px;
+    }
+
+    .retry-button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #ff0000;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="message">
+    <p>YOU LOST !</p>
+    <p>YOU WANNA TRY AGAIN ?</p>
+  </div>
+  <button class="retry-button" onclick="retryLevel()">Réessayer</button>
+
+  <script>
+    function retryLevel() {
+
+      
+      window.location.href = "draw.html"; 
+    }
+  </script>
+</body>
+</html>
